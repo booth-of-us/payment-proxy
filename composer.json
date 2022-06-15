@@ -1,0 +1,21 @@
+{
+  "name": "booth-of-us/payment-proxy",
+  "description": "Payment proxy for tripay",
+  "require": {
+    "slim/psr7": "^1.5",
+    "slim/http": "^1.2",
+    "slim/slim": "4.*",
+    "selective/basepath": "^2.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "BoothOfUs\\PaymentProxy\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "aldiwildan77",
+      "email": "aldiwild77@gmail.com"
+    }
+  ]
+}
