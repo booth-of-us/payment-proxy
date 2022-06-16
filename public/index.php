@@ -24,7 +24,7 @@ $app->addErrorMiddleware(true, true, true);
 
 // Define app routes
 $app->get('/', function (Request $request, Response $response) {
-  $response->getBody()->write('Hello, World!');
+  $response->getBody()->write('Health Check: OK');
   return $response;
 })->setName('root');
 
@@ -219,6 +219,12 @@ $app->get('/payment/instruction', function (Request $request, Response $response
     return $response->withStatus(500)->withHeader('Content-Type', 'application/json');
   }
 })->setName('payment-instruction');
+
+$app->post('/payment/callback', function (Request $request, Response $response) use ($configuration) {
+  $object = (object) ['success' => true];
+  $response->getBody()->write(json_encode($object));
+  return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+})->setName('payment-callback');
 
 // Run app
 $app->run();
