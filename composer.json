@@ -5,7 +5,8 @@
     "slim/psr7": "^1.5",
     "slim/http": "^1.2",
     "slim/slim": "4.*",
-    "selective/basepath": "^2.1"
+    "selective/basepath": "^2.1",
+    "monolog/monolog": "^3.7"
   },
   "autoload": {
     "psr-4": {
