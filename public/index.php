@@ -78,14 +78,14 @@ $app->get('/merchant/fee-calculator', function (Request $request, Response $resp
     }
 
     $resultData = json_decode($curlResult, true);
-    if (isset($resultData['response']) && isset($resultData['response']['success']) && $resultData['response']['success'] == false) {
-      $logger->error('API call unsuccessful', ['response' => $resultData]);
+    if ($httpcode !== 200) {
+      $logger->error('API call unsuccessful', ['response' => $resultData, 'httpcode' => $httpcode]);
       $response->getBody()->write($curlResult);
       return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
     }
 
     $response->getBody()->write($curlResult);
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
   } catch (Exception $e) {
     $logger->error('Exception caught', ['exception' => $e->getMessage()]);
     $response->getBody()->write($e->getMessage());
@@ -126,14 +126,15 @@ $app->post('/transaction/create', function (Request $request, Response $response
     }
 
     $resultData = json_decode($curlResult, true);
-    if ((isset($resultData['response']) && isset($resultData['response']['success']) && $resultData['response']['success'] == false) || $httpcode != 200 || $httpcode != 201) {
-      $logger->error('API call unsuccessful', ['response' => $resultData]);
+    if ($httpcode >= 400) {
+      $logger->error('API call unsuccessful', ['response' => $resultData, 'httpcode' => $httpcode]);
       $response->getBody()->write($curlResult);
       return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
     }
-
+    
+    $logger->info('API call successful', ['response' => $resultData]);
     $response->getBody()->write($curlResult);
-    return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+      return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
   } catch (Exception $e) {
     $logger->error('Exception caught', ['exception' => $e->getMessage()]);
     $response->getBody()->write($e->getMessage());
@@ -178,14 +179,14 @@ $app->get('/merchant/payment-channel', function (Request $request, Response $res
     }
 
     $resultData = json_decode($curlResult, true);
-    if (isset($resultData['response']) && isset($resultData['response']['success']) && $resultData['response']['success'] == false) {
-      $logger->error('API call unsuccessful', ['response' => $resultData]);
+    if ($httpcode != 200) {
+      $logger->error('API call unsuccessful', ['response' => $resultData, 'httpcode' => $httpcode]);
       $response->getBody()->write($curlResult);
       return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
     }
 
     $response->getBody()->write($curlResult);
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
   } catch (Exception $e) {
     $logger->error('Exception caught', ['exception' => $e->getMessage()]);
     $response->getBody()->write($e->getMessage());
@@ -230,14 +231,14 @@ $app->get('/payment/instruction', function (Request $request, Response $response
     }
 
     $resultData = json_decode($curlResult, true);
-    if (isset($resultData['response']) && isset($resultData['response']['success']) && $resultData['response']['success'] == false) {
-      $logger->error('API call unsuccessful', ['response' => $resultData]);
+    if ($httpcode != 200) {
+      $logger->error('API call unsuccessful', ['response' => $resultData, 'httpcode' => $httpcode]);
       $response->getBody()->write($curlResult);
       return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
     }
 
     $response->getBody()->write($curlResult);
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
   } catch (Exception $e) {
     $logger->error('Exception caught', ['exception' => $e->getMessage()]);
     $response->getBody()->write($e->getMessage());
