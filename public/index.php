@@ -78,7 +78,7 @@ $app->get('/merchant/fee-calculator', function (Request $request, Response $resp
     }
 
     $resultData = json_decode($curlResult, true);
-    if ($resultData['success'] == false) {
+    if (isset($resultData['response']) && isset($resultData['response']['success']) && $resultData['response']['success'] == false) {
       $logger->error('API call unsuccessful', ['response' => $resultData]);
       $response->getBody()->write($curlResult);
       return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
@@ -126,7 +126,7 @@ $app->post('/transaction/create', function (Request $request, Response $response
     }
 
     $resultData = json_decode($curlResult, true);
-    if ($resultData['success'] == false || $httpcode != 200 || $httpcode != 201) {
+    if ((isset($resultData['response']) && isset($resultData['response']['success']) && $resultData['response']['success'] == false) || $httpcode != 200 || $httpcode != 201) {
       $logger->error('API call unsuccessful', ['response' => $resultData]);
       $response->getBody()->write($curlResult);
       return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
@@ -178,7 +178,7 @@ $app->get('/merchant/payment-channel', function (Request $request, Response $res
     }
 
     $resultData = json_decode($curlResult, true);
-    if ($resultData['success'] == false) {
+    if (isset($resultData['response']) && isset($resultData['response']['success']) && $resultData['response']['success'] == false) {
       $logger->error('API call unsuccessful', ['response' => $resultData]);
       $response->getBody()->write($curlResult);
       return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
@@ -230,7 +230,7 @@ $app->get('/payment/instruction', function (Request $request, Response $response
     }
 
     $resultData = json_decode($curlResult, true);
-    if ($resultData['success'] == false) {
+    if (isset($resultData['response']) && isset($resultData['response']['success']) && $resultData['response']['success'] == false) {
       $logger->error('API call unsuccessful', ['response' => $resultData]);
       $response->getBody()->write($curlResult);
       return $response->withStatus($httpcode)->withHeader('Content-Type', 'application/json');
